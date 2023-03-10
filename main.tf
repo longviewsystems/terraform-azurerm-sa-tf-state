@@ -34,8 +34,13 @@ resource "azurerm_private_endpoint" "sa" {
 
 }
 
+
 #Create remote state storage account
 resource "azurerm_storage_account" "sa" {
+  #checkov:skip=CKV_AZURE_36:Access for Trusted Microsoft Services is not required.
+  #checkov:skip=CKV_AZURE_33:Not intended to be used for Queues.
+  #checkov:skip=CKV2_AZURE_18:Customer-managed key for encryption no required.
+  #checkov:skip=CKV2_AZURE_1: Customer-managed key for encryption no required.
   name                     = var.sa_name
   resource_group_name      = var.sa_rg_name
   location                 = var.location
@@ -45,6 +50,8 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "GZRS"
   min_tls_version          = "TLS1_2"
   is_hns_enabled           = false
+
+  public_network_access_enabled = false
 
   network_rules {
     default_action             = "Deny"
