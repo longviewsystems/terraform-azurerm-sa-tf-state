@@ -3,9 +3,9 @@ variable "location" {
   description = "Location for the Resource Group and other resources."
 }
 
-variable "prod_tags" {
+variable "tags" {
   type        = map(string)
-  description = "List of tags for Azure Resources"
+  description = "List of tags for Azure Resources."
   default     = {}
 }
 
@@ -28,13 +28,51 @@ variable "sa_container_delete_retention_policy_days" {
   default     = 30
 }
 
-/**** Key Vault ***/
-variable "kv_rg_name" {
-  type        = string
-  description = "Name of the Resource Group that contains the Key Vault."
+/***************************************************************/
+/*** Networking
+/***************************************************************/
+variable "bypass_network_rules" {
+  type = list(string)
+  description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
+  default = ["None"]
 }
 
-variable "kv_name" {
+variable "ip_rules" {
+  type = list(string)
+  description = "List of public IP or IP ranges in CIDR Format. Only IPv4 addresses are allowed. Private IP address ranges (as defined in RFC 1918) are not allowed."
+  default = []  
+}
+
+variable "virtual_network_subnet_ids" {
+  type = list(string)
+  description = "A list of subnet resource ids that can communicate with the Storage Account."
+  default = []
+}
+
+/***************************************************************/
+/*** Private End-points
+/***************************************************************/
+
+variable "create_private_endpoint" {
   type        = string
-  description = "The Key Vault Name."
+  default     = false
+  description = "Will create a service endpoint if set to True"
+}
+
+variable "private_dns_zone_group_name" {
+  type = string
+  description = "The name of the Private DNS Zone Group. "
+  default = "private-dns-zone-group"
+}
+
+variable "private_endpoint_subnet_id" {
+  type        = string
+  description = "Subnet ID used for private endpoint."
+  default =    null
+}
+
+variable "storage_blob_private_dns_zone_ids" {
+  type        = list(string)
+  description = "Private DNS Zone Ids for the blob service of Azure Storage Account."
+  default =    null
 }
