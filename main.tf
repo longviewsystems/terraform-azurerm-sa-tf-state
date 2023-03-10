@@ -51,7 +51,8 @@ resource "azurerm_storage_account" "sa" {
   min_tls_version          = "TLS1_2"
   is_hns_enabled           = false
 
-  public_network_access_enabled = false
+  public_network_access_enabled   = false
+  allow_nested_items_to_be_public = false
 
   network_rules {
     default_action             = "Deny"
