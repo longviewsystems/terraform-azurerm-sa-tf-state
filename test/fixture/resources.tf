@@ -36,7 +36,7 @@ resource "azurerm_resource_group" "fixture" {
 /*   Current IP
 /*****************************************/
 data "http" "my_public_ip" {
-  url = "https://ifconfig.co/json"
+  url = "http://ipinfo.io/json" //"https://ifconfig.co/json"
   request_headers = {
     Accept = "application/json"
   }
