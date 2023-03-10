@@ -32,21 +32,21 @@ variable "sa_container_delete_retention_policy_days" {
 /*** Networking
 /***************************************************************/
 variable "bypass_network_rules" {
-  type = list(string)
+  type        = list(string)
   description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
-  default = ["None"]
+  default     = ["None"]
 }
 
 variable "ip_rules" {
-  type = list(string)
+  type        = list(string)
   description = "List of public IP or IP ranges in CIDR Format. Only IPv4 addresses are allowed. Private IP address ranges (as defined in RFC 1918) are not allowed."
-  default = []  
+  default     = []
 }
 
 variable "virtual_network_subnet_ids" {
-  type = list(string)
+  type        = list(string)
   description = "A list of subnet resource ids that can communicate with the Storage Account."
-  default = []
+  default     = []
 }
 
 /***************************************************************/
@@ -60,19 +60,19 @@ variable "create_private_endpoint" {
 }
 
 variable "private_dns_zone_group_name" {
-  type = string
+  type        = string
   description = "The name of the Private DNS Zone Group. "
-  default = "private-dns-zone-group"
+  default     = "private-dns-zone-group"
 }
 
 variable "private_endpoint_subnet_id" {
   type        = string
   description = "Subnet ID used for private endpoint."
-  default =    null
+  default     = null
 }
 
 variable "storage_blob_private_dns_zone_ids" {
   type        = list(string)
   description = "Private DNS Zone Ids for the blob service of Azure Storage Account."
-  default =    null
+  default     = null
 }

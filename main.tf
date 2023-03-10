@@ -1,10 +1,10 @@
 locals {
   pe_sa_base_name = {
-        blob = lower("${var.sa_name}-blob-pe"),
-        file = lower("${var.sa_name}-file-pe"),
-        queue = lower("${var.sa_name}-queue-pe"),
-        table = lower("${var.sa_name}-table-pe"),
-      }
+    blob  = lower("${var.sa_name}-blob-pe"),
+    file  = lower("${var.sa_name}-file-pe"),
+    queue = lower("${var.sa_name}-queue-pe"),
+    table = lower("${var.sa_name}-table-pe"),
+  }
 
   # if the function_name is not set, use the base name of the PE
   # pe_name = try(var.private_endpoint_name == "", true) ? local.pe_base_name : var.private_endpoint_name
@@ -12,7 +12,7 @@ locals {
 }
 
 resource "azurerm_private_endpoint" "sa" {
-  count = var.create_private_endpoint ? 1 : 0
+  count               = var.create_private_endpoint ? 1 : 0
   name                = local.pe_sa_base_name["blob"]
   location            = var.location
   resource_group_name = var.sa_rg_name
@@ -20,7 +20,7 @@ resource "azurerm_private_endpoint" "sa" {
 
   private_dns_zone_group {
     name                 = var.private_dns_zone_group_name
-    private_dns_zone_ids = var.storage_blob_private_dns_zone_ids    
+    private_dns_zone_ids = var.storage_blob_private_dns_zone_ids
   }
 
   private_service_connection {
@@ -29,14 +29,14 @@ resource "azurerm_private_endpoint" "sa" {
     is_manual_connection           = false
     subresource_names              = ["blob"]
   }
-  
+
   tags = var.tags
 
 }
 
 #Create remote state storage account
 resource "azurerm_storage_account" "sa" {
-  name = var.sa_name
+  name                     = var.sa_name
   resource_group_name      = var.sa_rg_name
   location                 = var.location
   account_kind             = "StorageV2"
@@ -47,9 +47,9 @@ resource "azurerm_storage_account" "sa" {
   is_hns_enabled           = false
 
   network_rules {
-    default_action = "Deny"
-    bypass         = var.bypass_network_rules//["AzureServices"]
-    ip_rules       = var.ip_rules
+    default_action             = "Deny"
+    bypass                     = var.bypass_network_rules //["AzureServices"]
+    ip_rules                   = var.ip_rules
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
 
