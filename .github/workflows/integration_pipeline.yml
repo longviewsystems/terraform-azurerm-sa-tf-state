@@ -75,33 +75,12 @@ jobs:
         run: go mod download
       - name: 'Run Terratest'
         working-directory: test
-        run: make azdo-agent-test
+        run: go test -v -timeout 45m
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_ID_SUB_LVS_CMP_DEV }}
           ARM_CLIENT_ID: ${{ secrets.CLIENT_ID_SP_CLOUDMANAGEMENTPLATFORM_PIPELINE_SERVICECONNECTION_DEV }}
           ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SP_CLOUDMANAGEMENTPLATFORM_PIPELINE_SERVICECONNECTION_DEV }}
           ARM_TENANT_ID: ${{ secrets.TENANT_ID_LVS }}
-
-  convert_via_pandoc:
-    name: 'Convert markdown to PDF using Pandoc'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: 'Create file list'
-        id: files_list
-        run: |
-          mkdir output # create output directory
-          echo "::set-output name=files::$(printf '"%s" ' *.md)" # create file list
-
-      - uses: docker://pandoc/latex:latest
-        with:
-          args: --output=output/README.pdf ${{ steps.files_list.outputs.files }}
-
-      - uses: actions/upload-artifact@main
-        with:
-          name: README.pdf
-          path: output
 
   tag_module:
     name: 'Automated Tagging and Versioning using semantic-release'
@@ -112,7 +91,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v1 #Install Node 15 apt repo
         with:
-          node-version: 14.x
+          node-version: 18
       - name: Install node modules
         run: |
           npm install npx semantic-release
