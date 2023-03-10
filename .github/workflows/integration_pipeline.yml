@@ -86,10 +86,10 @@ jobs:
     name: 'Automated Tagging and Versioning using semantic-release'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v1 #Install Node 15 apt repo
+      - uses: actions/setup-node@v2 #Install Node 15 apt repo
         with:
           node-version: 18
       - name: Install node modules
