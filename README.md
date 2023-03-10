@@ -1,12 +1,12 @@
 # Overview
-This module creates an Azure Storage Account with settings suiteable for Terraform State in Azure.  The Storage Account created has the following properties:
+This module creates an Azure Storage Account with settings suitable for Terraform State in Azure.  The Storage Account created has the following properties:
 * The storage is configured to help recover from corruption or other damage:
    * Version, chnage feed, and last access time enabled. 
    * [Geo-zone-redundant storage (GZRS)](https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy#geo-zone-redundant-storage)
    * Blobs and containers retained for a configurable amount of time.
 * Network security controls:
   * By default access from the Internet is denied.
-  * Optionally, a Private End-Point can be created, access can be alloed from select public IPs of Azure vNets.
+  * Optionally, a Private End-Point can be created, access can be allowed from select public IPs of Azure vNets.
 
 ------------
 
