@@ -1,74 +1,12 @@
 # Overview
-This repo is a common template that can be used to scaffold a Terraform based project. 
-
-It incorporates:
-
-- `Pre-commit hooks` to enforce code formatting and document generation.
-- GitHub Actions to invoke a security lint `Checkov` and basic unit tests `Terratest` using CI triggers.
-- GitHub Actions to convert markdown to PDF using the Pandoc latex container image. 
-- Semantic versioning using the open source `semantic-release` package. More information on versioning can be found [here](https://github.com/longviewsystems/terraform-azurerm-common-template/wiki/Semantic-Versioning "here"). 
-
-Note that this repo deploys an Azure DevOps self-hosted agent as an example, and the Terraform configuraton files are scaffolded at the root of the repo. The intent here is not to highlight the Terraform code, but rather focus on the structure in order to support the development cycle using a common integration pipeline.
-
-The design philosophy of this consumable is that it is meant to be run by a pipeline, therefore there is a level of abstraction from the user for values which should be set in the answers file (either `tfvars` or export `TF_VAR` environment variables). Long View's preferred approach is to use `tfvars` to set values.
-
-------------
-
-
-# Limitations
-`GITHUB_TOKEN` is automatically created and distributed by GitHub Actions. It does not have sufficient permission to operate on protected branches. If you are using the CI in an environment with branch protection policies, then it is necessary to do two things:
-
-1. Use a custom token (`GH_TOKEN_SEMANTIC_RELEASE`) with the repo scope. It is available as an environment secret at the organization level.
-2. Avoid persisting credentials as part of `actions/checkout@v2` during the repo checkout stage to the runner, by setting the parameter `persist-credentials: false`.
-
-```yaml
-tag_module:
-    name: 'Automated Tagging and Versioning using semantic-release'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v1 #Install Node 15 apt repo
-        with:
-          node-version: 15.x
-      - name: Install node modules
-        run: |
-          npm install npx semantic-release
-          npm install @semantic-release/git @semantic-release/changelog
-      - name: 'Run semantic-release'
-        run: npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN_SEMANTIC_RELEASE }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-------------
-
-
-# Usage
-To trigger a CI build in Github Actions, submit a PR to the dev/feature branch.
-
-To trigger terratest in the local environment:
-```bash
-$ cd test
-$ make azdo-agent-test
-```
-
-To deploy to an Azure tenant:
-```bash
-$ make azdo-agent
-```
-
-To destroy the infra in the Azure tenant:
-```bash
-$ make destroy
-```
-
-To cleanup the TF configuration files in your local dev env:
-```bash
-$ make clean
-```
+This module creates an Azure Storage Account with settings suiteable for Terraform State in Azure.  The Storage Account created has the following properties:
+* The storage is configured to help recover from corruption or other damage:
+   * Version, chnage feed, and last access time enabled. 
+   * [Geo-zone-redundant storage (GZRS)](https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy#geo-zone-redundant-storage)
+   * Blobs and containers retained for a configurable amount of time.
+* Network security controls:
+  * By default access from the Internet is denied.
+  * Optionally, a Private End-Point can be created, access can be alloed from select public IPs of Azure vNets.
 
 ------------
 
