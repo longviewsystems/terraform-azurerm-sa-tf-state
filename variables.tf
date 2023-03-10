@@ -31,6 +31,12 @@ variable "sa_container_delete_retention_policy_days" {
 /***************************************************************/
 /*** Networking
 /***************************************************************/
+variable "public_network_access_enabled" {
+  type = bool
+  description = "Enables or disables public network access.  The Storage Account is not accessible to the Internet when set to false."
+  default = true
+}
+
 variable "bypass_network_rules" {
   type        = list(string)
   description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
