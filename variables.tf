@@ -28,6 +28,18 @@ variable "sa_container_delete_retention_policy_days" {
   default     = 30
 }
 
+variable "containers_add_level" {
+  type        = bool
+  description = "Add lvl0, lvl1, lvl2, lvl3, lvl4 containers to the Storage Account."
+  default     = true
+}
+
+variable "containers_additional_containers" {
+  type        = map(string)
+  description = "Add containers with various names."
+  default     = {}
+}
+
 /***************************************************************/
 /*** Networking
 /***************************************************************/
