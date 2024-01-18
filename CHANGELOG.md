@@ -1,3 +1,17 @@
+# [1.1.0](https://github.com/longviewsystems/terraform-azurerm-sa-tf-state/compare/1.0.0...1.1.0) (2024-01-18)
+
+
+### Bug Fixes
+
+* add exceptions to checkov ([3983d4e](https://github.com/longviewsystems/terraform-azurerm-sa-tf-state/commit/3983d4e3fae96d92fa261fc28aac42a6693377a2))
+* exclude github checks ([49ad219](https://github.com/longviewsystems/terraform-azurerm-sa-tf-state/commit/49ad21978dd0ffb05b42a0a0a236a3e02e8901ad))
+
+
+### Features
+
+* add configurable containers. ([32825d6](https://github.com/longviewsystems/terraform-azurerm-sa-tf-state/commit/32825d624a7ecf11c0f21deb0d77db0993af420a))
+* add containers ([01dc14f](https://github.com/longviewsystems/terraform-azurerm-sa-tf-state/commit/01dc14ffba00abed54ff60aab192425197d23200))
+
 # 1.0.0 (2023-03-10)
 
 
