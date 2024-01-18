@@ -50,10 +50,10 @@ module "sa_test3" {
   containers_add_level = false
 
   containers_additional_containers = {
-    folder1 = "tf-net", 
-    folder2 = "test2", 
+    folder1 = "tf-net",
+    folder2 = "test2",
     folder3 = "tf-app"
-    }
+  }
 
   sa_name = module.test3naming.storage_account.name_unique
 

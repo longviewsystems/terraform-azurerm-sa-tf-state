@@ -80,35 +80,35 @@ resource "azurerm_storage_account" "sa" {
 
 #Create storage containers
 resource "azurerm_storage_container" "l0" {
-  count = var.containers_add_level ? 1 : 0
+  count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl0"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "l1" {
-  count = var.containers_add_level ? 1 : 0
+  count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl1"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "l2" {
-  count = var.containers_add_level ? 1 : 0
+  count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl2"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "l3" {
-  count = var.containers_add_level ? 1 : 0
+  count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl3"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "l4" {
-  count = var.containers_add_level ? 1 : 0
+  count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl4"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"

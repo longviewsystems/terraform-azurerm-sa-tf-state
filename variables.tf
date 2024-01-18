@@ -44,9 +44,9 @@ variable "containers_additional_containers" {
 /*** Networking
 /***************************************************************/
 variable "public_network_access_enabled" {
-  type = bool
+  type        = bool
   description = "Enables or disables public network access.  The Storage Account is not accessible to the Internet when set to false."
-  default = true
+  default     = true
 }
 
 variable "bypass_network_rules" {
