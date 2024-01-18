@@ -1,9 +1,36 @@
+ci:
+    autofix_commit_msg: |
+        [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+        for more information, see https://pre-commit.ci
+    autofix_prs: true
+    autoupdate_branch: ''
+    autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+    autoupdate_schedule: weekly
+    skip: []
+    submodules: false
+
+# test with pre-commit run --all-files
+
 repos:
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.77.1 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+  rev: v1.83.5 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
   hooks:
+    - id: terraform_tflint
+      name: Initialize tflint 
+      args: 
+        - --args=--init
+        - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl  
     - id: terraform_fmt
     - id: terraform_docs
     - id: terraform_tflint
-      args:
-        - --args=--module
+    - id: checkov
+      name: Checkov
+      description: This hook runs checkov.
+      entry: checkov -d . --skip-check CKV2_GHA_1,CKV_TF_1,CKV_GHA_4,CKV_GHA_3,CKV_GHA_1,CKV_GHA_2,CKV_GHA_6,CKV_GHA_7,CKV_GHA_5
+      language: python
+      pass_filenames: false
+      always_run: false
+      files: \.tf$
+      exclude: \.+.terraform\/.*$
+      require_serial: true    
