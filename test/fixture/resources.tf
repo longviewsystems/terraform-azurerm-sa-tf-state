@@ -56,6 +56,7 @@ data "http" "my_public_ip" {
 /*   Networking for PE
 /*****************************************/
 resource "azurerm_virtual_network" "fixture" {
+  #checkov:skip=CKV_AZURE_31:Test fixture only.
   name                = "example-network"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.fixture.location
@@ -63,6 +64,9 @@ resource "azurerm_virtual_network" "fixture" {
 }
 
 resource "azurerm_subnet" "fixture" {
+  #checkov:skip=CKV_AZURE_31:Test fixture only.
+  #checkov:skip=CKV2_AZURE_31:Test fixture only.
+
   name                 = "service"
   resource_group_name  = azurerm_resource_group.fixture.name
   virtual_network_name = azurerm_virtual_network.fixture.name

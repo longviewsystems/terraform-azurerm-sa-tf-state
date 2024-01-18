@@ -41,6 +41,11 @@ resource "azurerm_storage_account" "sa" {
   #checkov:skip=CKV_AZURE_33:Not intended to be used for Queues.
   #checkov:skip=CKV2_AZURE_18:Customer-managed key for encryption no required.
   #checkov:skip=CKV2_AZURE_1: Customer-managed key for encryption no required.
+  #checkov:skip=CKV2_AZURE_40: Shared key required.
+  #checkov:skip=CKV_AZURE_59: Public access required occationally.
+  #checkov:skip=CKV2_AZURE_59: Public access required occationally.
+  #checkov:skip=CKV2_AZURE_41: SAS token required.
+
   name                     = var.sa_name
   resource_group_name      = var.sa_rg_name
   location                 = var.location
@@ -80,6 +85,7 @@ resource "azurerm_storage_account" "sa" {
 
 #Create storage containers
 resource "azurerm_storage_container" "l0" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl0"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -87,6 +93,7 @@ resource "azurerm_storage_container" "l0" {
 }
 
 resource "azurerm_storage_container" "l1" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl1"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -94,6 +101,7 @@ resource "azurerm_storage_container" "l1" {
 }
 
 resource "azurerm_storage_container" "l2" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl2"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -101,6 +109,7 @@ resource "azurerm_storage_container" "l2" {
 }
 
 resource "azurerm_storage_container" "l3" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl3"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -108,6 +117,7 @@ resource "azurerm_storage_container" "l3" {
 }
 
 resource "azurerm_storage_container" "l4" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   count                 = var.containers_add_level ? 1 : 0
   name                  = "lvl4"
   storage_account_name  = azurerm_storage_account.sa.name
@@ -115,6 +125,7 @@ resource "azurerm_storage_container" "l4" {
 }
 
 resource "azurerm_storage_container" "additional" {
+  #checkov:skip=CKV2_AZURE_21:Logging not required.
   for_each              = var.containers_additional_containers
   name                  = each.value
   storage_account_name  = azurerm_storage_account.sa.name
