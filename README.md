@@ -34,6 +34,7 @@ No modules.
 |------|------|
 | [azurerm_private_endpoint.sa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
 | [azurerm_storage_account.sa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_container.additional](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.l0](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.l1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.l2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
@@ -45,11 +46,14 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_bypass_network_rules"></a> [bypass\_network\_rules](#input\_bypass\_network\_rules) | Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None. | `list(string)` | <pre>[<br>  "None"<br>]</pre> | no |
+| <a name="input_containers_add_level"></a> [containers\_add\_level](#input\_containers\_add\_level) | Add lvl0, lvl1, lvl2, lvl3, lvl4 containers to the Storage Account. | `bool` | `true` | no |
+| <a name="input_containers_additional_containers"></a> [containers\_additional\_containers](#input\_containers\_additional\_containers) | Add containers with various names. | `map(string)` | `{}` | no |
 | <a name="input_create_private_endpoint"></a> [create\_private\_endpoint](#input\_create\_private\_endpoint) | Will create a service endpoint if set to True | `string` | `false` | no |
 | <a name="input_ip_rules"></a> [ip\_rules](#input\_ip\_rules) | List of public IP or IP ranges in CIDR Format. Only IPv4 addresses are allowed. Private IP address ranges (as defined in RFC 1918) are not allowed. | `list(string)` | `[]` | no |
 | <a name="input_location"></a> [location](#input\_location) | Location for the Resource Group and other resources. | `string` | n/a | yes |
 | <a name="input_private_dns_zone_group_name"></a> [private\_dns\_zone\_group\_name](#input\_private\_dns\_zone\_group\_name) | The name of the Private DNS Zone Group. | `string` | `"private-dns-zone-group"` | no |
 | <a name="input_private_endpoint_subnet_id"></a> [private\_endpoint\_subnet\_id](#input\_private\_endpoint\_subnet\_id) | Subnet ID used for private endpoint. | `string` | `null` | no |
+| <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Enables or disables public network access.  The Storage Account is not accessible to the Internet when set to false. | `bool` | `true` | no |
 | <a name="input_sa_container_delete_retention_policy_days"></a> [sa\_container\_delete\_retention\_policy\_days](#input\_sa\_container\_delete\_retention\_policy\_days) | Specifies the number of days that the blob should be retained, between 1 and 365 days.  Default is 30 days | `number` | `30` | no |
 | <a name="input_sa_name"></a> [sa\_name](#input\_sa\_name) | Storage Account Name | `string` | n/a | yes |
 | <a name="input_sa_rg_name"></a> [sa\_rg\_name](#input\_sa\_rg\_name) | Name of the Resource Group to contain the Storage Account. | `string` | n/a | yes |

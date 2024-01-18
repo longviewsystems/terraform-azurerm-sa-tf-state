@@ -37,3 +37,26 @@ module "sa_test_with_pe" {
   tags = var.tags
 
 }
+
+# Test plain module without PE
+module "sa_test3" {
+  source = "../../"
+
+  sa_rg_name = azurerm_resource_group.fixture.name
+  location   = "westus2"
+
+  ip_rules = [local.public_ip]
+
+  containers_add_level = false
+
+  containers_additional_containers = {
+    folder1 = "tf-net",
+    folder2 = "test2",
+    folder3 = "tf-app"
+  }
+
+  sa_name = module.test3naming.storage_account.name_unique
+
+  tags = var.tags
+
+}

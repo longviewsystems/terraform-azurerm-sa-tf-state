@@ -1,0 +1,13 @@
+# https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow
+
+name: Create Release
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  call-workflow-in-local-repo:
+    uses: ./.github/workflows/shared_ci_release.yml  # workflows must be defined at the top level of the .github/workflows/ directory
+    secrets: inherit # inherit all secrets from the parent (this) workflow.
