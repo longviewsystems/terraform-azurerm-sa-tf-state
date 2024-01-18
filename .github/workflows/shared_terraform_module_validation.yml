@@ -1,0 +1,90 @@
+name: 'TF Module Validation'
+
+on:
+    workflow_call:
+      #Secrets are inherited.  Workflows that call reusable workflows in the same organization or enterprise can use the inherit keyword to implicitly pass the secrets.
+      inputs:
+        terratest-timeout:
+          description: 'A timeout value for Terratest.  Default is 30m.'
+          default: '30m'
+          required: false
+          type: string
+        image-version:
+          description: 'The version of the Docker image to use.  Default is latest.'
+          default: 'latest'
+          required: false
+          type: string
+
+
+permissions:
+    # Give the default GITHUB_TOKEN write permission to commit and push the
+    # added or changed files to the repository.  This is for stefanzweifel/git-auto-commit-action@v5
+    contents: write
+
+jobs:
+  check-env:
+    name: 'Check Environment'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 'Get Current Directory'
+        run: pwd
+    
+      - name: 'Check Environment Variables'
+        run: export
+      - name: 'Check Operating System'
+        run: lsb_release -a
+      - name: 'Check branch'
+        run: echo ${{ github.ref }}
+  pre-commit:
+    runs-on: ubuntu-20.04
+    name: 'Run Pre-Commit & Push Changes'
+    needs: check-env 
+    container:
+      image: longviewsystems/terraform-dev:${{ inputs.image-version }}
+      volumes:
+        - ${{ github.workspace }}:/wksp
+      options: --user root    
+    steps:
+    - name: 'Change directory to /wksp'
+      run: cd /wksp && ls -la
+    - name: 'Change owner of /github/home'
+      run: sudo chown -R root:root /github/home      
+    - uses: actions/checkout@v3
+    - name: 'Add safe directory'
+      run: git config --global --add safe.directory $GITHUB_WORKSPACE
+    - name: 'Get Git Status'
+      run: git status       
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'   
+    - uses: pre-commit/action@v3.0.0
+      continue-on-error: true # continue on error to allow for automated fixes
+    - uses: pre-commit/action@v3.0.0
+      continue-on-error: false # fail on error to prevent committing when there's an issue
+    - name: Commit & Push Changes #Push changes back to branch.
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with: 
+        branch: ${{ github.head_ref }}  
+        push_options: '--force'
+        commit_message: Automated pre-commit updates [git-auto-commit-action]
+  go-tests:
+    name: 'Run Terratest | Unit Testing'
+    needs: pre-commit 
+    runs-on: ubuntu-20.04
+    container:
+      image: longviewsystems/terraform-dev:${{ inputs.image-version }}
+      volumes:
+        - ${{ github.workspace }}:/wksp
+      options: --user root       
+    steps:
+      - uses: actions/checkout@v3 # checkout the repo to the Github Actions runner
+      - name: 'Run Terratest'
+        working-directory: test
+        run: go test -v -timeout ${{ inputs.terratest-timeout }}
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUB_ID_SUB_LVS_CMP_DEV }}
+          ARM_CLIENT_ID: ${{ secrets.CLIENT_ID_SP_CLOUDMANAGEMENTPLATFORM_PIPELINE_SERVICECONNECTION_DEV }}
+          ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET_SP_CLOUDMANAGEMENTPLATFORM_PIPELINE_SERVICECONNECTION_DEV }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID_LVS }}
+          TFE_TOKEN : ${{ secrets.TFCLOUD_TOKEN_LVS }}
+          TF_VAR_oauth_token: ${{ secrets.TEST_TOKEN_VCS }}

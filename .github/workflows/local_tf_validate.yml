@@ -13,8 +13,8 @@ on:
 jobs:
   call-validation-workflow:
     #refer to branch for testing with path like this: longviewsystems/shared-workflows/.github/workflows/shared_terraform_module_validation.yml@feat/add-tf-ci-validation
-    uses: longviewsystems/shared-workflows/.github/workflows/shared_terraform_module_validation.yml@2.0.0  # workflows must be defined at the top level of the .github/workflows/ directory
+    uses: ./.github/workflows/shared_terraform_module_validation.yml  # workflows must be defined at the top level of the .github/workflows/ directory
     with:
-      terratest-timeout: '20m'
+      terratest-timeout: '120m'
       image-version: '2.2.0'
     secrets: inherit # inherit all secrets from the parent (this) workflow.

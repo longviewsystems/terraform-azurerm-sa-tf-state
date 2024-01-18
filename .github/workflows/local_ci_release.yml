@@ -9,5 +9,5 @@ on:
 
 jobs:
   call-workflow-in-local-repo:
-    uses: longviewsystems/shared-workflows/.github/workflows/shared_ci_release.yml@2.0.0  # workflows must be defined at the top level of the .github/workflows/ directory
+    uses: ./.github/workflows/shared_ci_release.yml  # workflows must be defined at the top level of the .github/workflows/ directory
     secrets: inherit # inherit all secrets from the parent (this) workflow.
